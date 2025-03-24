@@ -41,6 +41,3 @@ plt.title("Relationship of Epochs and MSE")
 plt.ylabel("MSE")
 plt.xlabel("Epochs")
 plt.show()
-
-
-

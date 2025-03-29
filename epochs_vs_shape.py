@@ -77,8 +77,17 @@ _500_right /= count
 _500_diamond /= count
 _500_block /= count
 
+
+plt.rcParams.update({
+    'font.size': 16,        # General font size
+    'axes.titlesize': 18,   # Title font
+    'axes.labelsize': 16,   # Axis labels
+    'xtick.labelsize': 14,  # X tick labels
+    'ytick.labelsize': 14   # Y tick labels
+})
+
 values = [_100_left, _100_right, _100_diamond, _100_block, _250_left, _250_right, _250_diamond, _250_block, _500_left, _500_right, _500_diamond, _500_block]
-categories = ["100 left", "100 right", "100 diamond", "100 block", "250 left", "250 right", "250 diamond", "250 block", "500 left", "500 right", "500 diamond", "500 block"]
+categories = ["100 Left", "100 Right", "100 Diamond", "100 Block", "250 Left", "250 Right", "250 Diamond", "250 Block", "500 Left", "500 Right", "500 Diamond", "500 Block"]
 
 # Group size and spacing
 group_size = 4  # Space after every 4 bars
@@ -91,10 +100,15 @@ for i in range(len(values)):
 
 # Plotting the bar graph
 plt.figure(figsize=(12, 6))
-plt.bar(x_positions, values, color='skyblue', width=0.8)
+bars = plt.bar(x_positions, values, color='skyblue', width=0.8)
+
+# Add value labels on top of each bar
+for bar in bars:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width() / 2, yval, f'{yval:.2f}', ha='center', va='bottom')
 
 # Adjust x-ticks to align with categories
 plt.xticks(x_positions, categories, rotation=45, ha="right")
-plt.title("Epochs relation to Shape")
+plt.title("Epochs Relationship to Shape")
 plt.ylabel("MSE")
 plt.show()

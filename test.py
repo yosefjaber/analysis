@@ -1,130 +1,57 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import re
 
-results = pd.read_csv("results.csv")
-Models = results["Model"]
-MSE = results["MSE"]
-R2 =  results["R^2"]
-MAE =  results["MAE"]
-CV =  results["CV"]
-Count =  results["Count"]
+# Increase global font sizes
+plt.rcParams.update({'font.size': 26})
 
+# Load your CSV file
+df = pd.read_csv("results.csv")
 
+# --- Parse values from Model string ---
+df['shape'] = df['Model'].apply(lambda x: re.findall(r'_(left|right|diamond|block)_', x)[0])
+df['epochs'] = df['Model'].apply(lambda x: int(re.findall(r'_(\d+)_', x)[0]))
 
-#NUMBER OF EPOCH ANALYSIS
-categories = ["100 Epochs", "250 Epochs", "500 Epochs"]
-values = [0,0,0]
-count = 0
+# Function to extract learning rate (handles scientific notation like 5e-05)
+def extract_lr(model):
+    match = re.search(r'_(\d\.\d+|[1-9]e-\d+)_', model)
+    return float(match.group(1)) if match else None
 
-for i in range(len(results)):
-    if re.search("100", results.iloc[i]["Model"]):
-        values[0] += results.iloc[i]["MSE"]
-        count += 1
-    elif re.search("250", results.iloc[i]["Model"]):
-        values[1] += results.iloc[i]["MSE"]
-    elif re.search("500", results.iloc[i]["Model"]):
-        values[2] += results.iloc[i]["MSE"]
-    else:
-        print("ERROR no epoch found in string")
+df['lr'] = df['Model'].apply(extract_lr)
+df.rename(columns={"MSE": "mse"}, inplace=True)
 
-for i in range(3):
-    values[i] /= count
-    print(values[i])
-    
-plt.bar(categories, values)
-for index, value in enumerate(values):
-    plt.text(index, value, f"{value:.5f}", ha="center", va="bottom")
-plt.xlabel("# of Epochs")
-plt.ylabel("Average Mean Standard Error")
-plt.title("Relationship of Epochs on Error")
+# Set custom shape order (desired top-to-bottom order: left, right, diamond, block)
+desired_order = ["left", "right", "diamond", "block"]
+df['shape'] = pd.Categorical(df['shape'], categories=desired_order, ordered=True)
+
+# --- Plot: Create a 2x2 grid of heatmaps (one per learning rate) ---
+lrs = sorted(df['lr'].dropna().unique())
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 10), sharey=True)
+axes = axes.flatten()
+
+for i, learning_rate in enumerate(lrs):
+    sub_df = df[df["lr"] == learning_rate]
+    pivot = sub_df.pivot_table(index="shape", columns="epochs", values="mse")
+    sns.heatmap(
+        pivot,
+        ax=axes[i],
+        cmap="coolwarm",
+        annot=True,
+        fmt=".2f",
+        cbar=True,
+        annot_kws={'size': 20}  # Increase annotation font size
+    )
+    axes[i].set_title(f"LR = {learning_rate}", fontsize=24)
+    axes[i].set_xlabel("Epochs", fontsize=24)
+    axes[i].set_ylabel("Shape", fontsize=24)
+    axes[i].tick_params(axis='both', which='major', labelsize=22)
+
+# Remove any unused subplots (if there are less than 4 learning rates)
+for j in range(i + 1, 4):
+    fig.delaxes(axes[j])
+
+plt.suptitle("MSE Heatmaps by Shape & Epochs (Grouped by Learning Rate)", fontsize=18)
+plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.show()
-
-
-
-
-
-#Effect of Size and Epoch
-categories = ["100 Epochs Small", "100 Epochs Medium", "100 Epochs Large", "250 Epochs Small", "250 Epochs Medium", "250 Epochs Large", "500 Epochs Small", "500 Epochs Medium", "500 Epochs Large"]
-values = [0,0,0,0,0,0,0,0,0]
-count = 0
-
-for i in range(len(results)):
-    if re.search("100", results.iloc[i]["Model"]) and re.search("small", results.iloc[i]["Model"]):
-        values[0] += results.iloc[i]["MSE"]
-        count += 1
-    elif re.search("100", results.iloc[i]["Model"]) and re.search("medium", results.iloc[i]["Model"]):
-        values[1] += results.iloc[i]["MSE"]
-    elif re.search("100", results.iloc[i]["Model"]) and re.search("large", results.iloc[i]["Model"]):
-        values[2] += results.iloc[i]["MSE"]
-        
-    elif re.search("250", results.iloc[i]["Model"]) and re.search("small", results.iloc[i]["Model"]):
-        values[3] += results.iloc[i]["MSE"]
-    elif re.search("250", results.iloc[i]["Model"]) and re.search("medium", results.iloc[i]["Model"]):
-        values[4] += results.iloc[i]["MSE"]
-    elif re.search("250", results.iloc[i]["Model"]) and re.search("large", results.iloc[i]["Model"]):
-        values[5] += results.iloc[i]["MSE"]
-        
-    elif re.search("500", results.iloc[i]["Model"]) and re.search("small", results.iloc[i]["Model"]):
-        values[6] += results.iloc[i]["MSE"]
-    elif re.search("500", results.iloc[i]["Model"]) and re.search("medium", results.iloc[i]["Model"]):
-        values[7] += results.iloc[i]["MSE"]
-    elif re.search("500", results.iloc[i]["Model"]) and re.search("large", results.iloc[i]["Model"]):
-        values[8] += results.iloc[i]["MSE"]
-        
-        
-for i in range(9):
-    values[i] /= count
-    print(values[i])
-    
-plt.bar(categories, values)
-for index, value in enumerate(values):
-    plt.text(index, value, f"{value:.5f}", ha="center", va="bottom")
-plt.xlabel("# of Epochs")
-plt.ylabel("Average Mean Standard Error")
-plt.title("Relationship of Epochs and Size on Error")
-plt.show()
-
-
-
-
-
-
-
-
-
-
-#Effect of Shape
-categories = ["Left Pyramid", "Right Pyramid", "Diamond", "Block"]
-values = [0 for i in range(len(categories))]
-count = 0
-
-for i in range(len(results)):
-    if re.search("left", results.iloc[i]["Model"]):
-        values[0] += results.iloc[i]["MSE"]
-        count += 1
-    elif re.search("right", results.iloc[i]["Model"]):
-        values[1] += results.iloc[i]["MSE"]
-    elif re.search("diamond", results.iloc[i]["Model"]):
-        values[2] += results.iloc[i]["MSE"]
-    elif re.search("block", results.iloc[i]["Model"]):
-        values[3] += results.iloc[i]["MSE"]
-    else:
-        print("ERROR no epoch found in string")
-
-for i in range(len(categories)):
-    values[i] /= count
-    print(values[i])
-    
-plt.bar(categories, values)
-for index, value in enumerate(values):
-    plt.text(index, value, f"{value:.5f}", ha="center", va="bottom")
-plt.xlabel("Shape")
-plt.ylabel("Average Mean Standard Error")
-plt.title("Relationship of Shape on Error")
-plt.show()
-
-
-
-

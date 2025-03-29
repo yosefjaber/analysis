@@ -11,9 +11,18 @@ MAE =  results["MAE"]
 CV =  results["CV"]
 Count =  results["Count"]
 
-epoch_100 = 0
-epoch_250 = 0
-epoch_500 = 0
+#Size vs Shape
+b_small = 0
+_100_medium = 0
+_100_large = 0
+
+_250_small = 0
+_250_medium = 0
+_250_large = 0
+
+_500_small = 0
+_500_medium = 0
+_500_large = 0
 
 count = 0
 for i in range(len(results)):
@@ -28,16 +37,3 @@ for i in range(len(results)):
     elif re.search("500", model_name):
        epoch_500 += mse_value
       
-epoch_100 /= count
-epoch_250 /= count
-epoch_500 /= count
-
-values = [epoch_100, epoch_250, epoch_500]
-category = ["100 Epochs", "250 Epochs", "500 Epochs"]
-
-plt.figure(figsize=(12, 6))
-plt.bar(category, values, color='skyblue', width=0.8)
-plt.title("Relationship of Epochs and MSE")
-plt.ylabel("MSE")
-plt.xlabel("Epochs")
-plt.show()

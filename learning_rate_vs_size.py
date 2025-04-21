@@ -90,13 +90,22 @@ middle = np.array([medium_0_001, medium_0_0005, medium_0_0001, medium_0_00005])
 bottom = np.array([small_0_001, small_0_0005, small_0_0001, small_0_00005])
 
 grid = np.array([top, middle, bottom])
-
-plt.imshow(grid, cmap='hot', interpolation='nearest')
-plt.colorbar()
 plt.title("Learning Rate vs Size Heatmap against MSE")
 plt.xlabel("Learning Rate")
 plt.ylabel("Size")
 plt.xticks(np.arange(4), ["0.001", "0.0005", "0.0001", "0.00005"])
 plt.yticks(np.arange(3), ["Large", "Medium", "Small"])
 # plt.grid(visible=True, color='white', linestyle='-', linewidth=0.5)
+
+im = plt.imshow(grid, cmap='hot', interpolation='nearest')
+cbar = plt.colorbar(im)
+cbar.ax.tick_params(labelsize=26)  # Increase colorbar tick label size
+
+
+plt.title("Learning Rate vs Size Heatmap against MSE", fontsize=30)
+plt.xlabel("Learning Rate", fontsize=26)
+plt.ylabel("Size", fontsize=26)
+plt.xticks(np.arange(4), ["0.001", "0.0005", "0.0001", "0.00005"], fontsize=26)
+plt.yticks(np.arange(3), ["Large", "Medium", "Small"], fontsize=26)
+
 plt.show()

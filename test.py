@@ -21,19 +21,24 @@ def extract_lr(model):
 df['lr'] = df['Model'].apply(extract_lr)
 df.rename(columns={"MSE": "mse"}, inplace=True)
 
-# Set custom shape order (desired top-to-bottom order: left, right, diamond, block)
+# Define desired shape order (desired top-to-bottom order: left, right, diamond, block)
 desired_order = ["left", "right", "diamond", "block"]
+
+# Set custom shape order for the DataFrame column
 df['shape'] = pd.Categorical(df['shape'], categories=desired_order, ordered=True)
 
-# --- Plot: Create a 2x2 grid of heatmaps (one per learning rate) ---
-lrs = sorted(df['lr'].dropna().unique())
+# --- Plot: Create a 2x2 grid of heatmaps (one per shape) ---
+shapes = desired_order  # or: df['shape'].cat.categories.tolist()
 
 fig, axes = plt.subplots(2, 2, figsize=(12, 10), sharey=True)
 axes = axes.flatten()
 
-for i, learning_rate in enumerate(lrs):
-    sub_df = df[df["lr"] == learning_rate]
-    pivot = sub_df.pivot_table(index="shape", columns="epochs", values="mse")
+for i, shape in enumerate(shapes):
+    # Filter by shape
+    sub_df = df[df["shape"] == shape]
+    # Pivot with learning rate as rows and epochs as columns
+    pivot = sub_df.pivot_table(index="lr", columns="epochs", values="mse")
+    
     sns.heatmap(
         pivot,
         ax=axes[i],
@@ -43,15 +48,15 @@ for i, learning_rate in enumerate(lrs):
         cbar=True,
         annot_kws={'size': 20}  # Increase annotation font size
     )
-    axes[i].set_title(f"LR = {learning_rate}", fontsize=24)
+    axes[i].set_title(f"Shape = {shape}", fontsize=24)
     axes[i].set_xlabel("Epochs", fontsize=24)
-    axes[i].set_ylabel("Shape", fontsize=24)
+    axes[i].set_ylabel("Learning Rate", fontsize=24)
     axes[i].tick_params(axis='both', which='major', labelsize=22)
 
-# Remove any unused subplots (if there are less than 4 learning rates)
+# Remove any unused subplots (if there are less than 4 shapes)
 for j in range(i + 1, 4):
     fig.delaxes(axes[j])
 
-plt.suptitle("MSE Heatmaps by Shape & Epochs (Grouped by Learning Rate)", fontsize=18)
+plt.suptitle("MSE Heatmaps by Learning Rate & Epochs (Grouped by Shape)", fontsize=18)
 plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.show()

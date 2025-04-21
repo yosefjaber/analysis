@@ -32,9 +32,9 @@ def grad(x, y):
 
 # ── Gradient‑descent parameters ────────────────────────────────────────────────
 lr       = 0.05      # learning rate
-n_steps  = 80
+n_steps  = 2000
 # x0, y0   = rng.uniform(-5, 5, size=2)   # random start
-x0, y0   = -4.5,4.5
+x0, y0   = -5,-5.8
 
 path = [(x0, y0, loss(x0, y0))]
 x, y = x0, y0
@@ -70,11 +70,11 @@ ax.plot(
     color='crimson', marker='o', markersize=4,
     linewidth=2, label='Gradient descent path'
 )
+ax.legend(fontsize=14)
 
 ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('Loss')
 ax.set_title('Gradient Descent on a Random Loss Surface')
-ax.legend()
 plt.tight_layout()
 plt.show()

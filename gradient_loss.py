@@ -34,7 +34,7 @@ def grad(x, y):
 lr       = 0.05      # learning rate
 n_steps  = 80
 # x0, y0   = rng.uniform(-5, 5, size=2)   # random start
-x0, y0   = -4,4
+x0, y0   = -4.5,4.5
 
 path = [(x0, y0, loss(x0, y0))]
 x, y = x0, y0

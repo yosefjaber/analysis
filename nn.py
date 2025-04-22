@@ -45,9 +45,9 @@ def draw_network(ax, layer_sizes, node_radius=0.12, layer_h=1.0, x_pad=1.5):
 # Network layouts (feel free to tweak the exact sizes)
 # ------------------------------------------------------------------
 networks = {
-    "(a) Right triangle": [8, 6, 4, 2, 1],
-    "(b) Left triangle" : [1, 2, 4, 6, 8],
-    "(c) Diamond"       : [1, 3, 5, 3, 1],
+    "(a) Right triangle": [6, 4, 2, 1],
+    "(b) Left triangle" : [1, 2, 4, 6],
+    "(c) Diamond"       : [1, 3, 5 ,3, 1],
     "(d) Block"         : [1, 6, 6, 6, 1],
 }
 
@@ -60,7 +60,7 @@ axes = axes.flatten()
 for ax, (title, layers) in zip(axes, networks.items()):
     draw_network(ax, layers)
     # Put the label below the panel
-    ax.set_title(title, y=-0.12, fontsize=12, fontweight='bold')
+    ax.set_title(title, y=-0.12, fontsize=18, fontweight='bold')
 
 plt.tight_layout()
 plt.show()

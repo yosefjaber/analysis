@@ -11,7 +11,7 @@ MAE =  results["MAE"]
 CV =  results["CV"]
 Count =  results["Count"]
 
-# print(MSE.describe())
+print(MSE.describe())
 
 
 mse_dict = {}
@@ -23,6 +23,7 @@ sorted_mse_dict = dict(sorted(mse_dict.items(), key=lambda item: item[1]))
 first_ten = dict(list(sorted_mse_dict.items())[10:])
 # for key in first_ten:
 #     print(key)
+
 
 plt.boxplot(MSE, vert=False)
 plt.title("MSE boxplot")

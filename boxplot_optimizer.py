@@ -11,6 +11,7 @@ plt.rcParams.update({
     "ytick.labelsize": 24,
 })
 
+
 results = pd.read_csv("results.csv")
 Models = results["Model"]
 MSE = results["MSE"]
@@ -40,13 +41,18 @@ plt.figure(figsize=(8, 5))
 plt.boxplot(
     [adam, adamW],   # a list‑of‑lists
     vert=False,                          # horizontal boxes
-    labels=["Adam", "AdamW"]
+    labels=["Adam", "AdamW"],
+    boxprops=dict(linewidth=3),
+        whiskerprops=dict(linewidth=3),
+        capprops=dict(linewidth=3),
+        medianprops=dict(linewidth=3)
 )
 
 plt.title("Relationship of Optimizer and MSE")
 plt.xlabel("MSE")
 plt.tight_layout()
-# plt.show()
+plt.tick_params(axis='both', which='both', width=2, length=8)
+plt.show()
 
 amongus = pd.DataFrame(adam)
 print(amongus.describe())

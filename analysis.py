@@ -19,14 +19,14 @@ for i in range(len(MSE)):
     mse_dict[Models[i]] = MSE[i]
 
 sorted_mse_dict = dict(sorted(mse_dict.items(), key=lambda item: item[1]))
+print(sorted_mse_dict)
+# first_ten = dict(list(sorted_mse_dict.items())[10:])
+# # for key in first_ten:
+# #     print(key)
 
-first_ten = dict(list(sorted_mse_dict.items())[10:])
-# for key in first_ten:
-#     print(key)
 
-
-plt.boxplot(MSE, vert=False)
-plt.title("MSE boxplot")
-plt.xlabel("MSE")
-plt.yticks([1], [""])  # Remove the '1' label
-plt.show()
+# plt.boxplot(MSE, vert=False)
+# plt.title("MSE boxplot")
+# plt.xlabel("MSE")
+# plt.yticks([1], [""])  # Remove the '1' label
+# plt.show()

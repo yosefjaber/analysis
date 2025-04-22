@@ -46,13 +46,18 @@ plt.figure(figsize=(8, 5))
 plt.boxplot(
     [left, right, diamond, block],   # a list‑of‑lists
     vert=False,                          # horizontal boxes
-    labels=["Left Pyramid", "Right Pyramid", "Diamond", "Block"]
+    labels=["Left Pyramid", "Right Pyramid", "Diamond", "Block"],
+    boxprops=dict(linewidth=3),
+        whiskerprops=dict(linewidth=3),
+        capprops=dict(linewidth=3),
+        medianprops=dict(linewidth=3)
 )
 
 plt.title("Relationship of Shape and MSE")
 plt.xlabel("MSE")
 plt.tight_layout()
-# plt.show()
+plt.tick_params(axis='both', which='both', width=2, length=8)
+plt.show()
 
 def IQR(x):
     Q1 = x.quantile(0.25)

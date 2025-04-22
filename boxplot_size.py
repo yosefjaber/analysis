@@ -43,13 +43,18 @@ plt.figure(figsize=(8, 5))
 plt.boxplot(
     [small, medium, large],   # a list‑of‑lists
     vert=False,                          # horizontal boxes
-    labels=["Small", "Medium", "Large"]
+    labels=["Small", "Medium", "Large"],
+    boxprops=dict(linewidth=3),
+        whiskerprops=dict(linewidth=3),
+        capprops=dict(linewidth=3),
+        medianprops=dict(linewidth=3)
 )
 
 plt.title("Relationship of Size and MSE")
 plt.xlabel("MSE")
 plt.tight_layout()
-# plt.show()
+plt.tick_params(axis='both', which='both', width=2, length=8)
+plt.show()
 
 amongus = pd.DataFrame(small)
 print(amongus.describe())

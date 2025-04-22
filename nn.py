@@ -2,6 +2,14 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 import numpy as np
 
+plt.rcParams.update({
+    "font.size": 24,          # base size for everything
+    "axes.titlesize": 28,     # title font
+    "axes.labelsize": 26,     # x‑/y‑label font
+    "xtick.labelsize": 24,    # tick labels
+    "ytick.labelsize": 24,
+})
+
 # ------------------------------------------------------------------
 # Helper: draw a fully‑connected feed‑forward network on a given Axes
 # ------------------------------------------------------------------

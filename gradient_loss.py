@@ -2,6 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D   # noqa: F401
 
+plt.rcParams.update({
+    "font.size": 24,          # base size for everything
+    "axes.titlesize": 28,     # title font
+    "axes.labelsize": 26,     # x‑/y‑label font
+    "xtick.labelsize": 24,    # tick labels
+    "ytick.labelsize": 24,
+})
+
 # ── Random loss surface ────────────────────────────────────────────────────────
 rng = np.random      # remove the argument to get a new surface each run
 K   = 4                               # how many sinusoidal components
@@ -68,9 +76,9 @@ surf = ax.plot_surface(
 ax.plot(
     px, py, pz,
     color='crimson', marker='o', markersize=4,
-    linewidth=2, label='Gradient descent path'
+    linewidth=3, label='Gradient descent path'
 )
-ax.legend(fontsize=14)
+ax.legend(fontsize=18)
 
 ax.set_xlabel('x')
 ax.set_ylabel('y')

@@ -43,13 +43,18 @@ plt.figure(figsize=(8, 5))
 plt.boxplot(
     [epoch_100, epoch_250, epoch_500],   # a list‑of‑lists
     vert=False,                          # horizontal boxes
-    labels=["100 Epochs", "250 Epochs", "500 Epochs"]
+    labels=["100 Epochs", "250 Epochs", "500 Epochs"],
+    boxprops=dict(linewidth=3),
+        whiskerprops=dict(linewidth=3),
+        capprops=dict(linewidth=3),
+        medianprops=dict(linewidth=3)
 )
 
 plt.title("Relationship of Epochs and MSE")
 plt.xlabel("MSE")
 plt.tight_layout()
-# plt.show()
+plt.tick_params(axis='both', which='both', width=2, length=8)
+plt.show()
 
 amongus = pd.DataFrame(epoch_100)
 print(amongus.describe())

@@ -45,14 +45,19 @@ plt.figure(figsize=(8, 5))
 
 plt.boxplot(
     [lr_1, lr_2, lr_3, lr_4],   # a list‑of‑lists
-    vert=True,                          # horizontal boxes
-    labels=["0.001", "0.0005", "0.0001", "0.00005"]
+    vert=False,                          # horizontal boxes
+    labels=["0.001", "0.0005", "0.0001", "0.00005"],
+    boxprops=dict(linewidth=3),
+        whiskerprops=dict(linewidth=3),
+        capprops=dict(linewidth=3),
+        medianprops=dict(linewidth=3)
 )
 
 plt.title("Relationship of Learning Rate and MSE")
 plt.xlabel("MSE")
 plt.tight_layout()
-# plt.show()
+plt.tick_params(axis='both', which='both', width=2, length=8)
+plt.show()
 
 amongus = pd.DataFrame(lr_1)
 print(amongus.describe())

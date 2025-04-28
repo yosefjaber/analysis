@@ -74,7 +74,7 @@ tbl = ax_tbl.table(cellText=summary.values,
                    loc='center')
 
 tbl.auto_set_font_size(False) 
-tbl.set_fontsize(18)          
+tbl.set_fontsize(22)          
 plt.show()
 
 

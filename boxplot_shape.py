@@ -9,6 +9,7 @@ plt.rcParams.update({
     "axes.labelsize": 26,     # x‑/y‑label font
     "xtick.labelsize": 24,    # tick labels
     "ytick.labelsize": 24,
+    "axes.linewidth": 3 
 })
 
 results = pd.read_csv("results.csv")
@@ -39,46 +40,46 @@ for i in range(len(results)):
         block.append(mse_value)
       
 
-category = ["Left Pyramid", "Right Pyramid", "Diamond", "Block"]
+summary = (pd.DataFrame({"Left":  pd.Series(left).describe(),
+                         "Right": pd.Series(right).describe(),
+                         "Diamond":  pd.Series(diamond).describe(),
+                         "Block":  pd.Series(block).describe(),})
+           .loc[['count','mean','std','min','25%','50%','75%','max']]
+           .T.round(3))
 
-plt.figure(figsize=(8, 5))
+fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),  
+                                     gridspec_kw={'height_ratios':[3, 1]}) 
 
-plt.boxplot(
-    [left, right, diamond, block],   # a list‑of‑lists
-    vert=False,                          # horizontal boxes
-    labels=["Left Pyramid", "Right Pyramid", "Diamond", "Block"],
-    boxprops=dict(linewidth=3),
-        whiskerprops=dict(linewidth=3),
-        capprops=dict(linewidth=3),
-        medianprops=dict(linewidth=3)
-)
+ax_box.boxplot([left, right, diamond, block],                       
+               vert=False,
+               labels=["Left", "Right", "Diamond", "Block"],
+               boxprops=dict(linewidth=3),
+               whiskerprops=dict(linewidth=3),
+               capprops=dict(linewidth=3),
+               medianprops=dict(linewidth=3),
+               flierprops=dict(marker='o', markersize=12,
+                               markerfacecolor='none',
+                               markeredgecolor='black',
+                               markeredgewidth=2))
 
-plt.title("Relationship of Shape and MSE")
-plt.xlabel("MSE")
-plt.tight_layout()
-plt.tick_params(axis='both', which='both', width=2, length=8)
+ax_box.set_xlabel("MSE", labelpad=0)                         
+ax_box.set_ylabel("Shape")                                     
+ax_box.tick_params(axis='both', which='both', width=2, length=8)  
+
+ax_tbl.axis('off')                                 
+ax_tbl.table(cellText=summary.values,
+             rowLabels=summary.index,
+             colLabels=summary.columns,
+             cellLoc='center', rowLoc='center',
+             loc='center')                                 
+
+fig.tight_layout(pad=2)                                        
+tbl = ax_tbl.table(cellText=summary.values,
+                   rowLabels=summary.index,
+                   colLabels=summary.columns,
+                   cellLoc='center', rowLoc='center',
+                   loc='center')
+
+tbl.auto_set_font_size(False)  
+tbl.set_fontsize(18)           
 plt.show()
-
-def IQR(x):
-    Q1 = x.quantile(0.25)
-    Q2 = x.quantile(0.75)
-    print(Q2-Q1)
-
-amongus = pd.DataFrame(left)
-# print(amongus.describe())
-IQR(amongus)
-
-amongus2 = pd.DataFrame(right)
-# print(amongus2.describe())
-IQR(amongus2)
-
-amongus3 = pd.DataFrame(diamond)
-# print(amongus3.describe())
-IQR(amongus3)
-
-amongus4 = pd.DataFrame(block)
-# print(amongus3.describe())
-IQR(amongus4)
-
-
-

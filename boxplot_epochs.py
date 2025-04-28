@@ -9,6 +9,7 @@ plt.rcParams.update({
     "axes.labelsize": 26,     # x‑/y‑label font
     "xtick.labelsize": 24,    # tick labels
     "ytick.labelsize": 24,
+    "axes.linewidth": 3 
 })
 
 results = pd.read_csv("results.csv")
@@ -36,31 +37,47 @@ for i in range(len(results)):
         epoch_500.append(mse_value)
       
 
-category = ["100 Epochs", "250 Epochs", "500 Epochs"]
+summary = (pd.DataFrame({"100":  pd.Series(epoch_100).describe(),
+                         "250": pd.Series(epoch_250).describe(),
+                         "500":  pd.Series(epoch_500).describe()})
+           .loc[['count','mean','std','min','25%','50%','75%','max']]
+           .T.round(3))
 
-plt.figure(figsize=(8, 5))
 
-plt.boxplot(
-    [epoch_100, epoch_250, epoch_500],   # a list‑of‑lists
-    vert=False,                          # horizontal boxes
-    labels=["100 Epochs", "250 Epochs", "500 Epochs"],
-    boxprops=dict(linewidth=3),
-        whiskerprops=dict(linewidth=3),
-        capprops=dict(linewidth=3),
-        medianprops=dict(linewidth=3)
-)
+fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),        
+                                     gridspec_kw={'height_ratios':[3, 1]})  
 
-plt.title("Relationship of Epochs and MSE")
-plt.xlabel("MSE")
-plt.tight_layout()
-plt.tick_params(axis='both', which='both', width=2, length=8)
+ax_box.boxplot([epoch_100, epoch_250, epoch_500],                            
+               vert=False,
+               labels=["100", "250", "500"],
+               boxprops=dict(linewidth=3),
+               whiskerprops=dict(linewidth=3),
+               capprops=dict(linewidth=3),
+               medianprops=dict(linewidth=3),
+               flierprops=dict(marker='o', markersize=12,
+                               markerfacecolor='none',
+                               markeredgecolor='black',
+                               markeredgewidth=2))
+
+ax_box.set_xlabel("MSE", labelpad=0)                             
+ax_box.set_ylabel("Epochs")                                         
+ax_box.tick_params(axis='both', which='both', width=2, length=8)  
+
+
+ax_tbl.axis('off')                                                
+ax_tbl.table(cellText=summary.values,
+             rowLabels=summary.index,
+             colLabels=summary.columns,
+             cellLoc='center', rowLoc='center',
+             loc='center')                                    
+
+fig.tight_layout(pad=2)                                        
+tbl = ax_tbl.table(cellText=summary.values,
+                   rowLabels=summary.index,
+                   colLabels=summary.columns,
+                   cellLoc='center', rowLoc='center',
+                   loc='center')
+
+tbl.auto_set_font_size(False) 
+tbl.set_fontsize(18)          
 plt.show()
-
-amongus = pd.DataFrame(epoch_100)
-print(amongus.describe())
-
-amongus2 = pd.DataFrame(epoch_250)
-print(amongus2.describe())
-
-amongus3 = pd.DataFrame(epoch_500)
-print(amongus3.describe())

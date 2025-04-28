@@ -4,61 +4,63 @@ import matplotlib.pyplot as plt
 import re
 
 plt.rcParams.update({
-    "font.size": 24,          # base size for everything
-    "axes.titlesize": 28,     # title font
-    "axes.labelsize": 26,     # x‑/y‑label font
-    "xtick.labelsize": 24,    # tick labels
+    "font.size": 24,
+    "axes.titlesize": 28,
+    "axes.labelsize": 26,
+    "xtick.labelsize": 24,
     "ytick.labelsize": 24,
+    "axes.linewidth": 3
 })
 
 results = pd.read_csv("results.csv")
-Models = results["Model"]
-MSE = results["MSE"]
-R2 =  results["R^2"]
-MAE =  results["MAE"]
-CV =  results["CV"]
-Count =  results["Count"]
+small, medium, large = [], [], []
 
-small = []
-medium = []
-large = []
-
-count = 0
 for i in range(len(results)):
     model_name = results.iloc[i]["Model"]
-    mse_value = results.iloc[i]["MSE"]
+    mse_value  = results.iloc[i]["MSE"]
+    if   re.search("small",  model_name): small.append(mse_value)
+    elif re.search("medium", model_name): medium.append(mse_value)
+    elif re.search("large",  model_name): large.append(mse_value)
 
-    if re.search("small", model_name):
-        small.append(mse_value)
-    elif re.search("medium", model_name):
-        medium.append(mse_value)
-    elif re.search("large", model_name):
-        large.append(mse_value)
-      
+summary = (pd.DataFrame({"Small":  pd.Series(small).describe(),
+                         "Medium": pd.Series(medium).describe(),
+                         "Large":  pd.Series(large).describe()})
+           .loc[['count','mean','std','min','25%','50%','75%','max']]
+           .T.round(3))
 
-category = ["Small", "Medium", "Large"]
+fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),      
+                                     gridspec_kw={'height_ratios':[3, 1]})  
 
-plt.figure(figsize=(8, 5))
+ax_box.boxplot([small, medium, large],                     
+               vert=False,
+               labels=["Small", "Medium", "Large"],
+               boxprops=dict(linewidth=3),
+               whiskerprops=dict(linewidth=3),
+               capprops=dict(linewidth=3),
+               medianprops=dict(linewidth=3),
+               flierprops=dict(marker='o', markersize=12,
+                               markerfacecolor='none',
+                               markeredgecolor='black',
+                               markeredgewidth=2))
 
-plt.boxplot(
-    [small, medium, large],   # a list‑of‑lists
-    vert=False,                          # horizontal boxes
-    labels=["Small", "Medium", "Large"],
-    boxprops=dict(linewidth=3),
-        whiskerprops=dict(linewidth=3),
-        capprops=dict(linewidth=3),
-        medianprops=dict(linewidth=3)
-)
+ax_box.set_xlabel("MSE", labelpad=50)                        
+ax_box.set_ylabel("Size")                                    
+ax_box.tick_params(axis='both', which='both', width=2, length=8)  
 
-plt.title("Relationship of Size and MSE")
-plt.xlabel("MSE")
-plt.tight_layout()
-plt.tick_params(axis='both', which='both', width=2, length=8)
+ax_tbl.axis('off')                                       
+ax_tbl.table(cellText=summary.values,
+             rowLabels=summary.index,
+             colLabels=summary.columns,
+             cellLoc='center', rowLoc='center',
+             loc='center')                                    
+
+fig.tight_layout(pad=2)                                    
+tbl = ax_tbl.table(cellText=summary.values,
+                   rowLabels=summary.index,
+                   colLabels=summary.columns,
+                   cellLoc='center', rowLoc='center',
+                   loc='center')
+
+tbl.auto_set_font_size(False)  
+tbl.set_fontsize(18)          
 plt.show()
-
-amongus = pd.DataFrame(small)
-print(amongus.describe())
-
-
-
-

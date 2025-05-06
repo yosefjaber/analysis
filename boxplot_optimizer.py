@@ -40,11 +40,15 @@ summary = (pd.DataFrame({"Adam":  pd.Series(adam).describe(),
            .loc[['count','mean','std','min','25%','50%','75%','max']]
            .T.round(3))
 
+gap = .25                          # distance you want between boxes
+pos = [1, 1+gap]          # 1 → 1.35 → 1.70
+
 fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),       
-                                     gridspec_kw={'height_ratios':[3, 1]}) 
+                                     gridspec_kw={'height_ratios':[3,1], 'hspace':0.25}) 
 
 ax_box.boxplot([adam, adamW],                  
                vert=False,
+               positions=pos,
                labels=["Adam", "AdamW"],
                boxprops=dict(linewidth=3),
                whiskerprops=dict(linewidth=3),
@@ -55,9 +59,12 @@ ax_box.boxplot([adam, adamW],
                                markeredgecolor='black',
                                markeredgewidth=2))
 
+
 ax_box.set_xlabel("MSE", labelpad=0)                       
 ax_box.set_ylabel("Optimizer")                                   
 ax_box.tick_params(axis='both', which='both', width=2, length=8) 
+
+ax_box.set_ylim(pos[0]-gap*0.6, pos[-1]+gap*0.6)
 
 ax_tbl.axis('off')                                       
 ax_tbl.table(cellText=summary.values,

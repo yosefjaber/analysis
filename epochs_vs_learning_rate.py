@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import re
+from matplotlib.ticker import MultipleLocator 
 
 results = pd.read_csv("results.csv")
 Models = results["Model"]
@@ -10,6 +11,16 @@ R2 =  results["R^2"]
 MAE =  results["MAE"]
 CV =  results["CV"]
 Count =  results["Count"]
+
+plt.rcParams.update({
+    "font.size": 24,          # base size for everything
+    "axes.titlesize": 28,     # title font
+    "axes.labelsize": 26,     # x‑/y‑label font
+    "xtick.labelsize": 24,    # tick labels
+    "ytick.labelsize": 24,
+    "axes.linewidth": 1
+})
+
 
 
 #Epochs vs Learning Rate
@@ -91,12 +102,22 @@ bottom = np.array([_100_0_001, _100_0_0005, _100_0_0001, _100_0_00005])
 
 grid = np.array([top, middle, bottom])
 
-plt.imshow(grid, cmap='hot', interpolation='nearest')
-plt.colorbar()
-plt.title("Average MSE Heatmap")
-plt.xlabel("Learning Rate")
-plt.ylabel("Epochs")
-plt.xticks(np.arange(4), ["0.001", "0.0005", "0.0001", "0.00005"])
-plt.yticks(np.arange(3), ["500", "250", "100"])
-# plt.grid(visible=True, color='white', linestyle='-', linewidth=0.5)
+fig, ax = plt.subplots()
+
+img  = ax.imshow(grid, cmap='viridis', aspect='auto')          # draw ONCE
+cbar = fig.colorbar(img, ax=ax)                                # draw ONCE
+cbar.locator = MultipleLocator(0.05)                           # ≤— tick step
+cbar.update_ticks()
+
+ax.set(
+    title   = "Learning Rate vs Epochs Heatmap against MSE",
+    xlabel  = "Learning Rate",
+    ylabel  = "Epochs",
+    xticks  = np.arange(4),
+    xticklabels = ["0.001", "0.0005", "0.0001", "0.00005"],
+    yticks  = np.arange(3),
+    yticklabels = ["500", "250", "100"],
+)
+
+plt.tight_layout()
 plt.show()

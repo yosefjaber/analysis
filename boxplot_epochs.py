@@ -4,21 +4,16 @@ import matplotlib.pyplot as plt
 import re
 
 plt.rcParams.update({
-    "font.size": 24,          # base size for everything
-    "axes.titlesize": 28,     # title font
-    "axes.labelsize": 26,     # x‑/y‑label font
-    "xtick.labelsize": 24,    # tick labels
-    "ytick.labelsize": 24,
-    "axes.linewidth": 3 
+    "font.size": 9,
+    "axes.titlesize": 9, #Nothing
+    "axes.labelsize": 8.6, #Bottom MSE text
+    "xtick.labelsize": 8, #x tick marks
+    "ytick.labelsize": 8, #y tick marks
+    "axes.linewidth": 1, #Rectangle Border
+    "figure.dpi": 300
 })
 
 results = pd.read_csv("results.csv")
-Models = results["Model"]
-MSE = results["MSE"]
-R2 =  results["R^2"]
-MAE =  results["MAE"]
-CV =  results["CV"]
-Count =  results["Count"]
 
 epoch_100 = []
 epoch_250 = []
@@ -44,12 +39,12 @@ summary = (pd.DataFrame({"100":  pd.Series(epoch_100).describe(),
            .T.round(3))
 
 
-gap = .35                          # distance you want between boxes
+gap = .0001                      # distance you want between boxes
 pos = [1, 1+gap, 1+2*gap]          # 1 → 1.35 → 1.70
 
 fig, (ax_box, ax_tbl) = plt.subplots(
     2, 1, figsize=(8, 5),
-    gridspec_kw={'height_ratios':[3,1], 'hspace':0.25}
+    gridspec_kw={'height_ratios':[0.9,1]}
 )
 
 # --- compact box‑plot -------------------------------------------------
@@ -57,25 +52,24 @@ ax_box.boxplot(
     [epoch_100, epoch_250, epoch_500],
     vert=False,
     positions=pos,                 # <<–––– here
-    widths=gap*0.65,               # a bit narrower than the gap
-    boxprops     =dict(linewidth=3),
-    whiskerprops =dict(linewidth=3),
-    capprops     =dict(linewidth=3),
-    medianprops  =dict(linewidth=3),
-    flierprops   =dict(marker='o', markersize=12,
+    widths=gap*0.5,               # a bit narrower than the gap
+    boxprops     =dict(linewidth=1),
+    whiskerprops =dict(linewidth=1),
+    capprops     =dict(linewidth=1),
+    medianprops  =dict(linewidth=1),
+    flierprops   =dict(marker='o', markersize=2,
                        markerfacecolor='none',
                        markeredgecolor='black',
-                       markeredgewidth=2)
+                       markeredgewidth=1)
 )
 
 ax_box.set_xlabel('MSE')
-ax_box.set_ylabel('Epochs')
+ax_box.set_ylabel('Epochs', labelpad=15)  # Increase from default (usually ~4-10)
+ax_box.tick_params(axis='both', which='both', width=1, length=4)  
 
 ax_box.set_yticks(pos)
 ax_box.set_yticklabels(['100', '250', '500'])
-
-# keep just a sliver of padding above & below the outer boxes
-ax_box.set_ylim(pos[0]-gap*0.6, pos[-1]+gap*0.6)
+ax_box.set_ylim(pos[0] - gap * 0.6, pos[-1] + gap * 0.6)
 
 # ---------------------------------------------------------------------
 ax_tbl.axis('off')
@@ -85,6 +79,8 @@ tbl = ax_tbl.table(cellText=summary.values,
                    cellLoc='center', rowLoc='center',
                    loc='center')
 tbl.auto_set_font_size(False)
-tbl.set_fontsize(22)
+tbl.set_fontsize(8)
 
+plt.tight_layout()
+fig.subplots_adjust(hspace=0)
 plt.show()

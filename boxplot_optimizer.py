@@ -41,7 +41,7 @@ summary = (pd.DataFrame({"Adam":  pd.Series(adam).describe(),
            .T.round(3))
 
 gap = .25                          # distance you want between boxes
-pos = [1, 1+gap]          # 1 → 1.35 → 1.70
+pos = [1, 1+gap]            # 1 → 1.35 → 1.70
 
 fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),       
                                      gridspec_kw={'height_ratios':[3,1], 'hspace':0.25}) 

@@ -12,6 +12,16 @@ CV =  results["CV"]
 Count =  results["Count"]
 
 
+plt.rcParams.update({
+    "font.size": 24,          # base size for everything
+    "axes.titlesize": 28,     # title font
+    "axes.labelsize": 26,     # x‑/y‑label font
+    "xtick.labelsize": 24,    # tick labels
+    "ytick.labelsize": 24,
+    "axes.linewidth": 1
+})
+
+
 #Learning Rate vs Size
 small_0_001 = 0
 small_0_0005 = 0
@@ -97,7 +107,7 @@ plt.xticks(np.arange(4), ["0.001", "0.0005", "0.0001", "0.00005"])
 plt.yticks(np.arange(3), ["Large", "Medium", "Small"])
 # plt.grid(visible=True, color='white', linestyle='-', linewidth=0.5)
 
-im = plt.imshow(grid, cmap='hot', interpolation='nearest')
+im = plt.imshow(grid, cmap='viridis', interpolation='nearest')
 cbar = plt.colorbar(im)
 cbar.ax.tick_params(labelsize=26)  # Increase colorbar tick label size
 

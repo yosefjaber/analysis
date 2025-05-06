@@ -62,7 +62,7 @@ networks = {
 # ------------------------------------------------------------------
 # Plot
 # ------------------------------------------------------------------
-fig, axes = plt.subplots(2, 2, figsize=(10, 7), facecolor="#d3d3d3")
+fig, axes = plt.subplots(2, 2, figsize=(10, 7))
 axes = axes.flatten()
 
 for ax, (title, layers) in zip(axes, networks.items()):

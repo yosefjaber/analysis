@@ -78,11 +78,11 @@ ax.plot(
     color='crimson', marker='o', markersize=4,
     linewidth=3, label='Gradient descent path'
 )
-ax.legend(fontsize=18)
+ax.legend(fontsize=22, loc='upper right',)
 
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('Loss')
+ax.set_xlabel('x', labelpad=30) 
+ax.set_ylabel('y', labelpad=30) 
+ax.set_zlabel('Loss', labelpad=30) 
 ax.set_title('Gradient Descent on a Random Loss Surface')
 plt.tight_layout()
 plt.show()

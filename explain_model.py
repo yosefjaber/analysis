@@ -4,6 +4,17 @@ import numpy as np
 import pandas as pd
 from torch.utils.data import DataLoader
 from create_model import create_model
+import matplotlib.pyplot as plt  
+
+plt.rcParams.update({
+    "font.size": 200,          # base size for everything
+    "axes.titlesize": 28,     # title of the plot
+    "axes.labelsize": 20,     # axis labels
+    "xtick.labelsize": 18,
+    "ytick.labelsize": 18,
+    "legend.fontsize": 18,
+})
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -55,7 +66,20 @@ shap.summary_plot(
     sv,
     inputs.cpu().numpy(),
     feature_names=feature_names,
-    max_display=n_feats
+    max_display=n_feats,
+    show = False
 )
 
+fig = plt.gcf()
 
+# loop through all axes (main plot + colorbar)
+for ax in fig.axes:
+    # set title / axis labels
+    ax.title.set_fontsize(26)
+    ax.xaxis.label.set_fontsize(26)
+    ax.yaxis.label.set_fontsize(26)
+    # set tick labels
+    ax.tick_params(axis='both', which='major', labelsize=28)
+
+plt.tight_layout()
+plt.show()

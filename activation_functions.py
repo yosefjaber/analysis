@@ -1,6 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.rcParams.update({
+    "font.size": 20,          # base size for everything
+    "axes.titlesize": 28,     # title of the plot
+    "axes.labelsize": 20,     # axis labels
+    "xtick.labelsize": 18,
+    "ytick.labelsize": 18,
+    "legend.fontsize": 18,
+})
+
 # x‑axis range
 x = np.linspace(-5, 5, 1000)
 

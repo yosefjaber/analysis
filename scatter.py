@@ -10,7 +10,7 @@ plt.rcParams.update({
     "xtick.labelsize": 8,
     "ytick.labelsize": 8,
     "axes.linewidth": 1,
-    "figure.dpi": 150
+    "figure.dpi": 300
 })
 
 results = pd.read_csv("results.csv")
@@ -23,8 +23,8 @@ fig, ax = plt.subplots(figsize=(6,4))
 ax.set_xscale('log')
 ax.set_yscale('log')
 
-ax.scatter(CV, MAE, s=3)
-ax.set_xlabel("Mean Standard Error")
+ax.scatter(CV, MAE, s=1)
+ax.set_xlabel("Coefficent of Variance")
 ax.set_ylabel("Mean Absolute Error")
 
 # ------------------------------------------------------------------

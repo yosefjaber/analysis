@@ -24,7 +24,7 @@ ax.set_xscale('log')
 ax.set_yscale('log')
 
 ax.scatter(CV, MAE, s=1)
-ax.set_xlabel("Coefficent of Variance")
+ax.set_xlabel("Normalized Root Mean Standard Error")
 ax.set_ylabel("Mean Absolute Error")
 
 # ------------------------------------------------------------------

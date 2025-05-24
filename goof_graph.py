@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 
 # Global font sizes
 plt.rcParams.update({
-    'font.size':        6,
-    'axes.titlesize':   6,
-    'axes.labelsize':   6,
-    'xtick.labelsize':  6,
-    'ytick.labelsize':  6,
+    'font.size':        9,
+    'axes.titlesize':   9,
+    'axes.labelsize':   9,
+    'xtick.labelsize':  9,
+    'ytick.labelsize':  9,
 })
 
 # Load & parse
@@ -44,6 +44,7 @@ global_max = df['mse'].max()
 # 3) Plot with the same vmin/vmax
 fig, axes = plt.subplots(1, 2, figsize=(14, 6), dpi=300, constrained_layout=True)
 for ax, opt in zip(axes, ['Adam', 'AdamW']):
+    ax.set_title(opt)
     subset = df[df['optimizer'] == opt]
     pivot = subset.pivot(index='ygroup', columns='xgroup', values='mse')
     im = ax.imshow(

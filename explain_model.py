@@ -7,12 +7,12 @@ from create_model import create_model
 import matplotlib.pyplot as plt  
 
 plt.rcParams.update({
-    "font.size": 200,          # base size for everything
-    "axes.titlesize": 28,     # title of the plot
-    "axes.labelsize": 20,     # axis labels
-    "xtick.labelsize": 18,
-    "ytick.labelsize": 18,
-    "legend.fontsize": 18,
+    "font.size": 10,          # base size for everything
+    "axes.titlesize": 20,     # title of the plot
+    "axes.labelsize": 10,     # axis labels
+    "xtick.labelsize": 9,
+    "ytick.labelsize": 9,
+    "legend.fontsize": 9,
 })
 
 
@@ -65,7 +65,7 @@ n_feats = len(feature_names)
 shap.summary_plot(
     sv,
     inputs.cpu().numpy(),
-    feature_names=feature_names,
+    feature_names=["Supply water temperature\nof the heating coil (°F)","Hot water flow rate through\nthe heating coil (GPM)","Mixed air temperature (°F)","Total supply airflow (CFM)"],
     max_display=n_feats,
     show = False
 )
@@ -79,7 +79,7 @@ for ax in fig.axes:
     ax.xaxis.label.set_fontsize(26)
     ax.yaxis.label.set_fontsize(26)
     # set tick labels
-    ax.tick_params(axis='both', which='major', labelsize=28)
+    ax.tick_params(axis='both', which='major', labelsize=22)
 
 plt.tight_layout()
 plt.show()

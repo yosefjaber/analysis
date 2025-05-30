@@ -36,7 +36,7 @@ fig, (ax_box, ax_tbl) = plt.subplots(
 ax_box.boxplot(
     results['MSE'],
     vert=False,
-    tick_labels=[""],
+    positions=[1],  # explicitly set the position
     boxprops     =dict(linewidth=1),
     whiskerprops =dict(linewidth=1),
     capprops     =dict(linewidth=1),
@@ -47,10 +47,12 @@ ax_box.boxplot(
                        markeredgewidth=1)
 )
 ax_box.set_xlabel('MSE')
+ax_box.set_yticks([1])
+ax_box.set_yticklabels(["All Models"])
 ax_box.tick_params(axis='both', which='both', width=1, length=4)
 
-ax_box.margins(y=0.01) 
-ax_box.set_yticks([]) 
+ax_box.margins(y=0.01)
+
 
 ax_box.set_ylim(pos[0]-gap*0.6, pos[-1]+gap*0.6)
 
@@ -70,4 +72,3 @@ tbl.set_fontsize(7)
 fig.subplots_adjust(hspace=0)             # safety – keep axes touching
 
 plt.show()
-

@@ -49,6 +49,7 @@ ax_box.boxplot(
 ax_box.set_xlabel('MSE')
 ax_box.set_yticks([1])
 ax_box.set_yticklabels(["All Models"])
+ax_box.set_ylabel('All Models')
 ax_box.tick_params(axis='both', which='both', width=1, length=4)
 
 ax_box.margins(y=0.01)

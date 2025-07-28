@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({
     "font.size": 10,          # base size for everything
     "axes.titlesize": 20,     # title of the plot
-    "axes.labelsize": 10,     # axis labels
-    "xtick.labelsize": 9,
-    "ytick.labelsize": 9,
-    "legend.fontsize": 9,
+    "axes.labelsize": 12,     # axis labels
+    "xtick.labelsize": 11,
+    "ytick.labelsize": 11,
+    "legend.fontsize": 11,
 })
 
 
@@ -43,7 +43,7 @@ bg_idx     = np.random.choice(len(X_train), size=1000, replace=False)
 background = X_train[bg_idx].to(device)
 explainer  = shap.GradientExplainer(model, background)
 test_loader = DataLoader(X_test, batch_size=32, shuffle=False)
-inputs      = X_test.to(device)
+inputs = X_test[:10].to(device)
 
 sv = explainer.shap_values(inputs)          # (32, 4, 1)  *or* list[...]
 

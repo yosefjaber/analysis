@@ -46,51 +46,49 @@ pos = [1, 1+gap]            # 1 → 1.35 → 1.70
 fig, (ax_box, ax_tbl) = plt.subplots(
     2, 1,
     figsize=(8, 6),
-    gridspec_kw={
-        'height_ratios': [3, 1],
-        'hspace': 0.6     # ← increase from 0.25 to 0.6 (or more)
-    }
+    gridspec_kw={'height_ratios': [3, 1], 'hspace': 0.25},
+    constrained_layout=True                 # <‑‑ use this, drop tight_layout()
 )
 
+# ── boxplot ────────────────────────────────────────────────
+ax_box.boxplot(
+    [adam, adamW],
+    vert=False,
+    positions=pos,
+    tick_labels=["Adam", "AdamW"],          # <‑‑ new name
+    boxprops=dict(linewidth=3),
+    whiskerprops=dict(linewidth=3),
+    capprops=dict(linewidth=3),
+    medianprops=dict(linewidth=3),
+    flierprops=dict(marker='o', markersize=12,
+                    markerfacecolor='none',
+                    markeredgecolor='black',
+                    markeredgewidth=2),
+)
 
-ax_box.boxplot([adam, adamW],                  
-               vert=False,
-               positions=pos,
-               labels=["Adam", "AdamW"],
-               boxprops=dict(linewidth=3),
-               whiskerprops=dict(linewidth=3),
-               capprops=dict(linewidth=3),
-               medianprops=dict(linewidth=3),
-               flierprops=dict(marker='o', markersize=12,
-                               markerfacecolor='none',
-                               markeredgecolor='black',
-                               markeredgewidth=2))
+ax_box.set_xlabel("MSE", labelpad=0)
+ax_box.set_ylabel("Optimizer", labelpad=15)
+ax_box.set_ylim(pos[0] - gap * .6, pos[-1] + gap * .6)
+ax_box.tick_params(axis='both', width=2, length=8)
 
+# ── statistics table ──────────────────────────────────────
+ax_tbl.axis('off')
+tbl = ax_tbl.table(
+    cellText=summary.values,
+    rowLabels=summary.index,
+    colLabels=summary.columns,
+    cellLoc='center', rowLoc='center',
+    bbox=[0, 0, 1, 1]        # fill the whole axes
+)
+tbl.auto_set_font_size(False)
+tbl.set_fontsize(22)
 
-ax_box.set_xlabel("MSE", labelpad=0)                       
-ax_box.set_ylabel("Optimizer", labelpad=15)                                   
-ax_box.tick_params(axis='both', which='both', width=2, length=8) 
+ax_tbl.set_title(
+    "Summary Statistics for Explored Optimizers",
+    fontsize=26,
+    pad=15
+)
 
-ax_box.set_ylim(pos[0]-gap*0.6, pos[-1]+gap*0.6)
-
-ax_tbl.axis('off')                                       
-ax_tbl.table(cellText=summary.values,
-             rowLabels=summary.index,
-             colLabels=summary.columns,
-             cellLoc='center', rowLoc='center',
-             loc='center')                               
-
-fig.tight_layout(pad=2)                                  
-tbl = ax_tbl.table(cellText=summary.values,
-                   rowLabels=summary.index,
-                   colLabels=summary.columns,
-                   cellLoc='center', rowLoc='center',
-                   loc='center')
-
-tbl.auto_set_font_size(False) 
-tbl.set_fontsize(22)   
-ax_tbl.set_title("Summary Statistics for Explored Optimizers", fontsize=26)
 plt.show()
-
 
 

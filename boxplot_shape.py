@@ -72,21 +72,20 @@ ax_box.set_xlabel("MSE", labelpad=0)
 ax_box.set_ylabel("Shape", labelpad=15)                                     
 ax_box.tick_params(axis='both', which='both', width=2, length=8)  
 
-ax_tbl.axis('off')                                 
-ax_tbl.table(cellText=summary.values,
-             rowLabels=summary.index,
-             colLabels=summary.columns,
-             cellLoc='center', rowLoc='center',
-             loc='center')                                 
-
-fig.tight_layout(pad=2)                                        
-tbl = ax_tbl.table(cellText=summary.values,
-                   rowLabels=summary.index,
-                   colLabels=summary.columns,
-                   cellLoc='center', rowLoc='center',
-                   loc='center')
+ax_tbl.axis('off')                                                                        
+tbl = ax_tbl.table(
+    cellText=summary.values,
+    rowLabels=summary.index,
+    colLabels=summary.columns,
+    cellLoc='center', rowLoc='center',
+    bbox=[0, 0, 1, 1]        # fill the whole axes
+)
 
 tbl.auto_set_font_size(False)  
 tbl.set_fontsize(22)   
-ax_tbl.set_title("Summary Statistics for Explored Shapes", fontsize=26)
+ax_tbl.set_title(
+    "Summary Statistics for Explored Shapes",
+    fontsize=26,
+    pad=15
+)
 plt.show()

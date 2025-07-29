@@ -58,15 +58,17 @@ ax_box.set_ylim(pos[0]-gap*0.6, pos[-1]+gap*0.6)
 
 # ----- summary table -----
 ax_tbl.axis('off')
-tbl = ax_tbl.table(cellText=summary.values,
-                   rowLabels=summary.index,
-                   colLabels=summary.columns,
-                   cellLoc='center', rowLoc='center',
-                   loc='center')
+tbl = ax_tbl.table(
+    cellText=summary.values,
+    rowLabels=summary.index,
+    colLabels=summary.columns,
+    cellLoc='center', rowLoc='center',
+    bbox=[0, 0, 1, 1]        # fill the whole axes
+)
                    
 tbl.auto_set_font_size(False) 
 tbl.set_fontsize(22)     
 tbl.scale(1, 1.5)
-ax_tbl.set_title("Summary Statistics for all Models", fontsize=26)
+ax_tbl.set_title("Summary Statistics for all Models", fontsize=26, pad=15)
 plt.show()
 

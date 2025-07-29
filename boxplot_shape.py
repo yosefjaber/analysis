@@ -47,8 +47,14 @@ summary = (pd.DataFrame({"Left":  pd.Series(left).describe(),
            .loc[['count','mean','std','min','25%','50%','75%','max']]
            .T.round(3))
 
-fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),  
-                                     gridspec_kw={'height_ratios':[3, 1]}) 
+fig, (ax_box, ax_tbl) = plt.subplots(
+    2, 1,
+    figsize=(8, 6),
+    gridspec_kw={
+        'height_ratios': [3, 1],
+        'hspace': 0.6     # ← increase from 0.25 to 0.6 (or more)
+    }
+)
 
 ax_box.boxplot([left, right, diamond, block],                       
                vert=False,
@@ -63,7 +69,7 @@ ax_box.boxplot([left, right, diamond, block],
                                markeredgewidth=2))
 
 ax_box.set_xlabel("MSE", labelpad=0)                         
-ax_box.set_ylabel("Shape")                                     
+ax_box.set_ylabel("Shape", labelpad=15)                                     
 ax_box.tick_params(axis='both', which='both', width=2, length=8)  
 
 ax_tbl.axis('off')                                 
@@ -81,5 +87,6 @@ tbl = ax_tbl.table(cellText=summary.values,
                    loc='center')
 
 tbl.auto_set_font_size(False)  
-tbl.set_fontsize(22)           
+tbl.set_fontsize(22)   
+ax_tbl.set_title("Summary Statistic for explored shapes", fontsize=26)
 plt.show()

@@ -115,7 +115,7 @@ plt.tight_layout()
 # colour‑bar
 cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap),
                     ax=ax, shrink=0.6, pad=0.02)
-cbar.set_label("MSE")
+cbar.set_label("MSE", labelpad=20, rotation=90, fontsize=20, color="black", ha="left")
 
 # comment out the next line if you only want the file,
 # or if matplotlib.use('Agg') is active

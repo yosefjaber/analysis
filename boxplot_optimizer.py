@@ -43,8 +43,15 @@ summary = (pd.DataFrame({"Adam":  pd.Series(adam).describe(),
 gap = .25                          # distance you want between boxes
 pos = [1, 1+gap]            # 1 → 1.35 → 1.70
 
-fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),       
-                                     gridspec_kw={'height_ratios':[3,1], 'hspace':0.25}) 
+fig, (ax_box, ax_tbl) = plt.subplots(
+    2, 1,
+    figsize=(8, 6),
+    gridspec_kw={
+        'height_ratios': [3, 1],
+        'hspace': 0.6     # ← increase from 0.25 to 0.6 (or more)
+    }
+)
+
 
 ax_box.boxplot([adam, adamW],                  
                vert=False,
@@ -61,7 +68,7 @@ ax_box.boxplot([adam, adamW],
 
 
 ax_box.set_xlabel("MSE", labelpad=0)                       
-ax_box.set_ylabel("Optimizer")                                   
+ax_box.set_ylabel("Optimizer", labelpad=15)                                   
 ax_box.tick_params(axis='both', which='both', width=2, length=8) 
 
 ax_box.set_ylim(pos[0]-gap*0.6, pos[-1]+gap*0.6)
@@ -81,7 +88,8 @@ tbl = ax_tbl.table(cellText=summary.values,
                    loc='center')
 
 tbl.auto_set_font_size(False) 
-tbl.set_fontsize(22)          
+tbl.set_fontsize(22)   
+ax_tbl.set_title("Summary Statistic for explored optimizers", fontsize=26)
 plt.show()
 
 

@@ -7,13 +7,19 @@ from create_model import create_model
 import matplotlib.pyplot as plt  
 
 plt.rcParams.update({
-    "font.size": 10,          # base size for everything
-    "axes.titlesize": 20,     # title of the plot
-    "axes.labelsize": 12,     # axis labels
-    "xtick.labelsize": 11,
-    "ytick.labelsize": 11,
-    "legend.fontsize": 11,
+    # "font.size": 200,
+    # "axes.titlesize": 200,
+    # "axes.labelsize": 200,
+    # "xtick.labelsize": 200,
+    # "ytick.labelsize": 200,
+    # "legend.fontsize": 200,
+    "text.color": "black",           # <-- set default text color to black
+    "axes.labelcolor": "black",      # <-- axis label color
+    "xtick.color": "black",          # <-- x tick color
+    "ytick.color": "black",          # <-- y tick color
+    "axes.edgecolor": "black"        # <-- axes edge (border) color
 })
+
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -43,7 +49,8 @@ bg_idx     = np.random.choice(len(X_train), size=1000, replace=False)
 background = X_train[bg_idx].to(device)
 explainer  = shap.GradientExplainer(model, background)
 test_loader = DataLoader(X_test, batch_size=32, shuffle=False)
-inputs = X_test[:10].to(device)
+inputs = X_test.to(device)
+print(len(inputs))
 
 sv = explainer.shap_values(inputs)          # (32, 4, 1)  *or* list[...]
 
@@ -75,11 +82,11 @@ fig = plt.gcf()
 # loop through all axes (main plot + colorbar)
 for ax in fig.axes:
     # set title / axis labels
-    ax.title.set_fontsize(26)
-    ax.xaxis.label.set_fontsize(26)
-    ax.yaxis.label.set_fontsize(26)
+    ax.title.set_fontsize(30)
+    ax.xaxis.label.set_fontsize(30)
+    ax.yaxis.label.set_fontsize(30)
     # set tick labels
-    ax.tick_params(axis='both', which='major', labelsize=22)
+    ax.tick_params(axis='both', which='major', labelsize=26)
 
 plt.tight_layout()
 plt.show()

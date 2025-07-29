@@ -112,12 +112,14 @@ cbar.update_ticks()
 ax.set(
     title   = "Learning Rate vs Epochs Heatmap against MSE",
     xlabel  = "Learning Rate",
-    ylabel  = "Epochs",
     xticks  = np.arange(4),
     xticklabels = ["0.001", "0.0005", "0.0001", "0.00005"],
     yticks  = np.arange(3),
     yticklabels = ["500", "250", "100"],
 )
+
+ax.set_ylabel("Epochs", labelpad=20)  # Increase pad to move it left
+ax.yaxis.set_label_position("left")  # (this is default, but explicit)
 
 plt.tight_layout()
 plt.show()

@@ -43,6 +43,8 @@ global_max = df['mse'].max()
 
 # 3) Plot with the same vmin/vmax
 fig, axes = plt.subplots(1, 2, figsize=(14, 6), dpi=300, constrained_layout=True)
+fig, axes = plt.subplots(1, 2, figsize=(14, 6), dpi=300, constrained_layout=True)
+fig.set_constrained_layout_pads(wspace=0.2, hspace=0.1)
 for ax, opt in zip(axes, ['Adam', 'AdamW']):
     ax.set_title(opt)
     subset = df[df['optimizer'] == opt]

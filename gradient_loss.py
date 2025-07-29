@@ -75,10 +75,10 @@ surf = ax.plot_surface(
 
 ax.plot(
     px, py, pz,
-    color='crimson', marker='o', markersize=4,
+    color='crimson', marker='o', markersize=5,
     linewidth=3, label='Gradient descent path'
 )
-ax.legend(fontsize=22, loc='upper right',)
+ax.legend(fontsize=26, loc='upper right',)
 
 ax.set_xlabel('x', labelpad=30) 
 ax.set_ylabel('y', labelpad=30) 

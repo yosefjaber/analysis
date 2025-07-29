@@ -48,8 +48,14 @@ summary = (pd.DataFrame({"0.001":  pd.Series(lr_1).describe(),
            .T.round(3))
 
 
-fig, (ax_box, ax_tbl) = plt.subplots(2, 1, figsize=(8, 6),      
-                                     gridspec_kw={'height_ratios':[3, 1]}) 
+fig, (ax_box, ax_tbl) = plt.subplots(
+    2, 1,
+    figsize=(8, 6),
+    gridspec_kw={
+        'height_ratios': [3, 1],
+        'hspace': 0.6     # ← increase from 0.25 to 0.6 (or more)
+    }
+)
 
 ax_box.boxplot([lr_1, lr_2, lr_3, lr_4],                     
                vert=False,
@@ -64,7 +70,7 @@ ax_box.boxplot([lr_1, lr_2, lr_3, lr_4],
                                markeredgewidth=2))
 
 ax_box.set_xlabel("MSE", labelpad=0)                         
-ax_box.set_ylabel("Learning Rate")                                      
+ax_box.set_ylabel("Learning Rate", labelpad=15)                                      
 ax_box.tick_params(axis='both', which='both', width=2, length=8) 
 
 ax_tbl.axis('off')                                          
@@ -82,7 +88,8 @@ tbl = ax_tbl.table(cellText=summary.values,
                    loc='center')
 
 tbl.auto_set_font_size(False) 
-tbl.set_fontsize(22)          
+tbl.set_fontsize(22)     
+ax_tbl.set_title("Summary Statistic for explored learning rates", fontsize=26)
 plt.show()
 
 

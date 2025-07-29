@@ -32,8 +32,12 @@ gap = .0001                      # distance you want between boxes
 pos = [1, 1+gap, 1+2*gap]          # 1 → 1.35 → 1.70
 
 fig, (ax_box, ax_tbl) = plt.subplots(
-    2, 1, figsize=(8, 5),
-    gridspec_kw={'height_ratios':[0.9,1]}
+    2, 1,
+    figsize=(8, 6),
+    gridspec_kw={
+        'height_ratios': [3, 1],
+        'hspace': 0.6     # ← increase from 0.25 to 0.6 (or more)
+    }
 )
 
 ax_box.boxplot(
@@ -51,7 +55,7 @@ ax_box.boxplot(
                        markeredgewidth=2)
 )
 ax_box.set_xlabel('MSE')
-ax_box.set_ylabel('Size', labelpad=25)  # Increase from default (usually ~4-10)                    
+ax_box.set_ylabel('Size', labelpad=15)  # Increase from default (usually ~4-10)                    
 ax_box.tick_params(axis='both', which='both', width=2, length=8)  
 
 ax_box.set_yticks(pos)
@@ -70,4 +74,5 @@ tbl.set_fontsize(22)
 
 plt.tight_layout()
 fig.subplots_adjust(hspace=0)
+ax_tbl.set_title("Summary Statistic for explored size", fontsize=26)
 plt.show()

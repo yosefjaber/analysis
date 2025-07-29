@@ -4,13 +4,12 @@ import matplotlib.pyplot as plt
 import re
 
 plt.rcParams.update({
-    "font.size": 9,
-    "axes.titlesize": 9, #Nothing
-    "axes.labelsize": 8.6, #Bottom MSE text
-    "xtick.labelsize": 8, #x tick marks
-    "ytick.labelsize": 8, #y tick marks
-    "axes.linewidth": 1, #Rectangle Border
-    "figure.dpi": 300
+    "font.size": 24,          # base size for everything
+    "axes.titlesize": 28,     # title font
+    "axes.labelsize": 26,     # x‑/y‑label font
+    "xtick.labelsize": 24,    # tick labels
+    "ytick.labelsize": 24,
+    "axes.linewidth": 3 
 })
 
 results = pd.read_csv("results.csv")
@@ -43,8 +42,12 @@ gap = .0001                      # distance you want between boxes
 pos = [1, 1+gap, 1+2*gap]          # 1 → 1.35 → 1.70
 
 fig, (ax_box, ax_tbl) = plt.subplots(
-    2, 1, figsize=(8, 5),
-    gridspec_kw={'height_ratios':[0.9,1]}
+    2, 1,
+    figsize=(8, 6),
+    gridspec_kw={
+        'height_ratios': [3, 1],
+        'hspace': 0.6     # ← increase from 0.25 to 0.6 (or more)
+    }
 )
 
 # --- compact box‑plot -------------------------------------------------
@@ -53,14 +56,14 @@ ax_box.boxplot(
     vert=False,
     positions=pos,                 # <<–––– here
     widths=gap*0.5,               # a bit narrower than the gap
-    boxprops     =dict(linewidth=1),
-    whiskerprops =dict(linewidth=1),
-    capprops     =dict(linewidth=1),
-    medianprops  =dict(linewidth=1),
-    flierprops   =dict(marker='o', markersize=2,
+    boxprops     =dict(linewidth=3),
+    whiskerprops =dict(linewidth=3),
+    capprops     =dict(linewidth=3),
+    medianprops  =dict(linewidth=3),
+    flierprops   =dict(marker='o', markersize=12,
                        markerfacecolor='none',
                        markeredgecolor='black',
-                       markeredgewidth=1)
+                       markeredgewidth=2)
 )
 
 ax_box.set_xlabel('MSE')
@@ -78,9 +81,8 @@ tbl = ax_tbl.table(cellText=summary.values,
                    colLabels=summary.columns,
                    cellLoc='center', rowLoc='center',
                    loc='center')
-tbl.auto_set_font_size(False)
-tbl.set_fontsize(8)
-
-plt.tight_layout()
-fig.subplots_adjust(hspace=0)
+                   
+tbl.auto_set_font_size(False) 
+tbl.set_fontsize(22)     
+ax_tbl.set_title("Summary Statistic for explored epochs", fontsize=26)
 plt.show()

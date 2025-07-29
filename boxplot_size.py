@@ -74,5 +74,5 @@ tbl.set_fontsize(22)
 
 plt.tight_layout()
 fig.subplots_adjust(hspace=0)
-ax_tbl.set_title("Summary Statistic for explored size", fontsize=26)
+ax_tbl.set_title("Summary Statistics for Explored Size", fontsize=26)
 plt.show()

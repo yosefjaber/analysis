@@ -84,5 +84,5 @@ tbl = ax_tbl.table(cellText=summary.values,
                    
 tbl.auto_set_font_size(False) 
 tbl.set_fontsize(22)     
-ax_tbl.set_title("Summary Statistic for explored epochs", fontsize=26)
+ax_tbl.set_title("Summary Statistics for Explored Epochs", fontsize=26)
 plt.show()

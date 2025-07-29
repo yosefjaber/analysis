@@ -88,5 +88,5 @@ tbl = ax_tbl.table(cellText=summary.values,
 
 tbl.auto_set_font_size(False)  
 tbl.set_fontsize(22)   
-ax_tbl.set_title("Summary Statistic for explored shapes", fontsize=26)
+ax_tbl.set_title("Summary Statistics for Explored Shapes", fontsize=26)
 plt.show()

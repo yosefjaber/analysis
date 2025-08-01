@@ -43,7 +43,7 @@ for i in range(len(results)):
 summary = (pd.DataFrame({"0.001":  pd.Series(lr_1).describe(),
                          "0.0005": pd.Series(lr_2).describe(),
                          "0.0001":  pd.Series(lr_3).describe(),
-                         "5e-05":  pd.Series(lr_4).describe(),})
+                         r'$5\times10^{-5}$':  pd.Series(lr_4).describe(),})
            .loc[['count','mean','std','min','25%','50%','75%','max']]
            .T.round(3))
 
@@ -59,7 +59,7 @@ fig, (ax_box, ax_tbl) = plt.subplots(
 
 ax_box.boxplot([lr_1, lr_2, lr_3, lr_4],                     
                vert=False,
-               labels=["0.001", "0.0005", "0.0001", "5e-05"],
+               labels=["0.001", "0.0005", "0.0001", r'$5\times10^{-5}$'],
                boxprops=dict(linewidth=3),
                whiskerprops=dict(linewidth=3),
                capprops=dict(linewidth=3),
@@ -81,11 +81,13 @@ ax_tbl.table(cellText=summary.values,
              loc='center')                                  
 
 fig.tight_layout(pad=2)                                       
-tbl = ax_tbl.table(cellText=summary.values,
-                   rowLabels=summary.index,
-                   colLabels=summary.columns,
-                   cellLoc='center', rowLoc='center',
-                   loc='center')
+tbl = ax_tbl.table(
+    cellText=summary.values,
+    rowLabels=summary.index,
+    colLabels=summary.columns,
+    cellLoc='center', rowLoc='center',
+    bbox=[0, 0, 1, 1]        # fill the whole axes
+)
 
 tbl.auto_set_font_size(False) 
 tbl.set_fontsize(22)     

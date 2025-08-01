@@ -86,7 +86,6 @@ tbl.set_fontsize(22)
 ax_tbl.set_title(
     "Summary Statistics for Explored Optimizers",
     fontsize=26,
-    pad=15
 )
 
 plt.show()

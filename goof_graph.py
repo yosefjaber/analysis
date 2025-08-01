@@ -35,7 +35,7 @@ df["learningrate"] = lrs
 df["optimizer"]    = optimizers
 
 df['xgroup'] = df['size'] + ' | ' + df['shapetype']
-df['ygroup'] = df['epochs'].astype(str) + ' | ' + df['learningrate'].astype(str)
+df['ygroup'] = df['epochs'].astype(str) + ' | ' + df['learningrate'].astype(str).str.replace('5e-05', r'$5\times10^{-5}$', regex=False)
 
 # 2) Compute global color range
 global_min = df['mse'].min()
@@ -43,7 +43,7 @@ global_max = df['mse'].max()
 
 # 3) Plot with the same vmin/vmax
 fig, axes = plt.subplots(1, 2, figsize=(14, 6), dpi=300, constrained_layout=True)
-fig, axes = plt.subplots(1, 2, figsize=(14, 6), dpi=300, constrained_layout=True)
+
 fig.set_constrained_layout_pads(wspace=0.2, hspace=0.1)
 for ax, opt in zip(axes, ['Adam', 'AdamW']):
     ax.set_title(opt)
